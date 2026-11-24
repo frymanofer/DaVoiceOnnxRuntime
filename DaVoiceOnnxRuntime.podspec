@@ -21,7 +21,7 @@ Pod::Spec.new do |s|
   s.homepage     = 'https://davoice.io'
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
   s.author       = { 'DaVoice.io' => 'info@davoice.io' }
-  s.source       = { :http => '__ZIP_URL__', :sha256 => '__ZIP_SHA256__' }
+  s.source       = { :http => 'https://github.com/frymanofer/DaVoiceOnnxRuntime/releases/download/v1.31.0/DaVoiceOnnxRuntime-1.31.0.zip', :sha256 => 'c34da04945ed6d43a4efc4c163c87e18d5ae7e26a54b10b22a72a55070185eac' }
 
   s.ios.deployment_target = '15.1'
   s.module_name      = 'onnxruntime_objc'
