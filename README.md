@@ -1,6 +1,7 @@
 # DaVoiceOnnxRuntime
 
-ONNX Runtime **1.31.0** for iOS in one CocoaPods pod, built by DaVoice from the official source.
+ONNX Runtime **1.31.0** for iOS, built by DaVoice from the official source, as one CocoaPods pod or as a
+Swift package (the same build and API).
 
 ## Why
 
@@ -21,10 +22,32 @@ symbols.
 
 ## Use
 
+CocoaPods:
+
 ```ruby
 # Podfile or podspec
 pod 'DaVoiceOnnxRuntime', '1.31.0'          # s.dependency 'DaVoiceOnnxRuntime', '1.31.0'
 ```
+
+Swift Package Manager (Xcode: File > Add Package Dependencies, this repo's URL, version 1.31.0), or in `Package.swift`:
+
+```swift
+.package(url: "https://github.com/frymanofer/DaVoiceOnnxRuntime", from: "1.31.0"),
+// in your target:
+.product(name: "DaVoiceOnnxRuntime", package: "DaVoiceOnnxRuntime"),
+```
+
+```swift
+import onnxruntime_objc            // ORTEnv, ORTSession, ORTValue, CoreML / XNNPACK providers
+```
+
+```cpp
+#include <onnxruntime/onnxruntime_cxx_api.h>   // C / C++ API (from an Objective-C++ or C++ target)
+```
+
+The package downloads `onnxruntime.xcframework` from the same release zip as the pod (sha256-checked by SwiftPM) and
+builds Microsoft's Objective-C API sources in `Sources/onnxruntime_objc` (identical to the zip's `objectivec/`).
+Use the pod or the package in an app, not both.
 
 ## What is in the zip
 
@@ -71,3 +94,12 @@ commit, `402979ac1bef89dcd55add41eaa7277c407599eb`, and git verifies every objec
   on-device agent plugins in one app, this pod once) build, load the voices and the agent, and run three car
   commands.
 - **Not yet done:** a physical iPhone.
+
+## Verified, Swift package (2026-11-26)
+
+- **iPhone 17 Pro simulator:** a test package that depends on this one by version (`from: "1.31.0"`) runs a small
+  model through `ORTSession` on the CPU, with the CoreML provider and with the XNNPACK provider, and through the C++
+  API from an Objective-C++ target. All four give the right output and report ONNX Runtime 1.31.0.
+- **Device build:** the same tests build and link for arm64 iOS devices (not run on a phone).
+- **Tags:** SwiftPM resolves `from: "1.31.0"` to the git tag `1.31.0` (the commit with `Package.swift`). The older
+  tag `v1.31.0` (the pod release, no `Package.swift`) is left as it is.
